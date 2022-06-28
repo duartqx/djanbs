@@ -7,36 +7,12 @@
 		<title>Djanbs Job Offers</title>
 	</head>
 	<body>
-        <div class="job-offers-table">
-            <table>
-            <tr>
-                <th>Job Name</th>
-                <th>Position Level</th>
-                <th>Location</th>
-                <th>Company</th>
-                <th></th>
-            </tr>
-            {% for job_offer in job_offers %}
-                <tr class="row-hover">
-                    <td>{{ job_offer.name }}</td>
-                    {% if job_offer.position_level == 1 %}
-                        <td>Intern</td>
-                    {% elif job_offer.position_level == 2 %}
-                        <td>Junior</td>
-                    {% elif job_offer.position_level == 3 %}
-                        <td>Pleno</td>
-                    {% elif job_offer.position_level == 4 %}
-                        <td>Senior</td>
-                    {% elif job_offer.position_level == 5 %}
-                        <td>Tech Lead</td>
-                    {% endif %}
-                    <td>{{ job_offer.location }}</td>
-                    <td>{{ job_offer.company }}</td>
-                    <td class="row-link"><a href="#" class="button">Apply to Offer</a></td>
-                </tr>
-            {% endfor %}
-            </table>
+        <div class="topbar">
+            <a class="active" href="{% url 'jobs-home' %}">Home</a>
+            <a class="ralign" href="#login">Login</a>
         </div>
+        {% block content %}
+        {% endblock %}
 	</body>
 
 </html>

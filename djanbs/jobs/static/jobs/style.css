@@ -40,3 +40,14 @@ a {
     background-color: white;
     color: var(--blue);
 }
+
+.topbar, .topbar a {
+    padding: 8px;
+    background-color: var(--darker);
+    color: white;
+    margin: auto;
+}
+.topbar a:hover {
+    background-color: var(--blue);
+    color: white;
+}

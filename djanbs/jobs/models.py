@@ -66,7 +66,13 @@ class JobCandidacted(models.Model):
     relationship into the database for future access by the site
     administration, companies or the candidact himself '''
     job_offer = models.ForeignKey(JobOffer, on_delete=models.CASCADE)
-    candidacts = models.ManyToManyField(Candidact)
+    candidact = models.ForeignKey(Candidact, on_delete=models.SET_NULL, null=True)
+
+    def _get_cndct_count(self):
+        ''' Finds out how many applied to each job_offer '''
+        return JobCandidacted.objects.filter( # type: ignore
+                job_offer=self.job_offer).values(
+                        "candidact").distinct().count() 
 
     def __str__(self):
-        return f'{self.job_offer} - {self.candidacts.count()} applied.' # type: ignore
+        return f'{self.job_offer} ({self._get_cndct_count()} applied) - {self.candidact}' # type: ignore

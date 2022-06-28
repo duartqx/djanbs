@@ -20,5 +20,5 @@ import jobs.views # type: ignore
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', jobs.views.home),
+    path('', jobs.views.home, name='jobs-home'),
 ]
