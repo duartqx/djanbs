@@ -1,0 +1,42 @@
+:root {
+    --light: #d2d7e0;
+    --dark: #1A1C1E;
+    --darker: #141517;
+    --blue: #0aafff;
+}
+
+body {
+    background-color: var(--dark);
+    color: var(--light);
+    max-width: 800px;
+    margin: auto;
+}
+
+table { 
+    border-collapse: collapse; 
+}
+
+th, td {
+    border-bottom: 0.05em solid var(--light);
+    padding: 15px;
+    text-align: center;
+}
+
+a {
+    text-decoration: none;
+}
+
+.row-hover:hover  {
+    background-color: var(--darker);
+}
+
+.button {
+    padding: 8px;
+    background-color: var(--blue);
+    color: var(--light);
+}
+
+.button:hover{
+    background-color: white;
+    color: var(--blue);
+}
