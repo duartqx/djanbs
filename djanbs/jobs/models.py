@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 
 
@@ -9,7 +10,7 @@ class PaymentRange(models.IntegerChoices):
 
 
 class PositionLevel(models.IntegerChoices):
-    INTERN = 1
+    INTERN = 1 # Estágio
     JUNIOR = 2 # Junior
     PLENO = 3 # Pleno
     SENIOR = 4 # Senior
@@ -26,7 +27,8 @@ class EducationRequirement(models.IntegerChoices):
 
 
 class Company(models.Model):
-    ''' A company offering jobs to candidacts '''
+    ''' A company that may offer jobs to candidacts '''
+    user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
     name = models.CharField(max_length=50)
     email = models.EmailField()
     site = models.URLField()
@@ -37,6 +39,7 @@ class Company(models.Model):
 
 class Candidact(models.Model):
     ''' A user looking for job offers '''
+    user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
     first_name = models.CharField(max_length=20)
     last_name = models.CharField(max_length=120)
     payment_range = models.IntegerField(choices=PaymentRange.choices)
@@ -56,6 +59,7 @@ class JobOffer(models.Model):
     payment_range = models.IntegerField(choices=PaymentRange.choices)
     education_req = models.IntegerField(choices=EducationRequirement.choices)
     position_level = models.IntegerField(choices=PositionLevel.choices)
+    date_created = models.DateTimeField(auto_now_add=True, null=True)
 
     def __str__(self):
         return self.name
@@ -67,6 +71,7 @@ class JobCandidacted(models.Model):
     administration, companies or the candidact himself '''
     job_offer = models.ForeignKey(JobOffer, on_delete=models.CASCADE)
     candidact = models.ForeignKey(Candidact, on_delete=models.SET_NULL, null=True)
+    date_candidacted = models.DateTimeField(auto_now_add=True, null=True)
 
     def _get_cndct_count(self):
         ''' Finds out how many applied to each job_offer '''
