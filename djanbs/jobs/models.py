@@ -27,7 +27,7 @@ class EducationRequirement(models.IntegerChoices):
 
 
 class Company(models.Model):
-    ''' A company that may offer jobs to candidacts '''
+    ''' A Company that may post JobOffer to Candidacts '''
     user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
     name = models.CharField(max_length=50)
     email = models.EmailField()
@@ -38,7 +38,7 @@ class Company(models.Model):
 
 
 class Candidact(models.Model):
-    ''' A user looking for job offers '''
+    ''' A user looking for JobOffers '''
     user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
     first_name = models.CharField(max_length=20)
     last_name = models.CharField(max_length=120)
@@ -51,7 +51,7 @@ class Candidact(models.Model):
 
 
 class JobOffer(models.Model):
-    ''' A company creates and has many JobOffers '''
+    ''' A Company creates and has many JobOffers '''
     name = models.CharField(max_length=125)
     location = models.CharField(max_length=50)
     description = models.TextField(null=True)
@@ -77,7 +77,7 @@ class JobCandidacted(models.Model):
         ''' Finds out how many applied to each job_offer '''
         return JobCandidacted.objects.filter( # type: ignore
                 job_offer=self.job_offer).values(
-                        "candidact").distinct().count() 
+                    "candidact").distinct().count() 
 
     def __str__(self):
         return f'{self.job_offer} ({self._get_cndct_count()} applied) - {self.candidact}' # type: ignore

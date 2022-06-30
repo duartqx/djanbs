@@ -1,0 +1,23 @@
+{% extends "jobs/base.html" %}
+{% block content %}
+    <h2 class="register-n-login">Log In</h2>
+    <form method="POST">
+        {% csrf_token %}
+        <p><input type="text" name="username"></p>
+        <p><input type="password" name="password"></p>
+        <button class="register-n-login" type="submit">Log In</button>
+    </form>
+    {% for message in messages %}
+        <p>{{ message }}</p>
+    {% endfor %}
+<script>
+    var form_fields = document.getElementsByTagName('input')
+    form_fields[1].placeholder='Username';
+    form_fields[2].placeholder='Password';
+
+    for (var field in form_fields){
+            form_fields[field].className += ' form-control'
+        }
+
+</script>
+{% endblock content %}

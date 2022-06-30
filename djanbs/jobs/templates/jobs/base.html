@@ -8,8 +8,13 @@
 	</head>
 	<body>
         <div class="topbar">
-            <a class="active" href="{% url 'jobs-home' %}">Home</a>
-            <a class="ralign" href="#login">Login</a>
+            <a href="{% url 'home' %}">Djanbs</a>
+            <a class="ralign" href="#">{{ user_name|capfirst }}</a>
+            {% if in_or_out == 'login' %}
+                <a class="ralign" href="{% url 'login' %}">Login</a>
+            {% else %}
+                <a class="ralign logoutred" href="{% url 'logout' %}">Logout</a>
+            {% endif %}
         </div>
         {% block content %}
         {% endblock %}

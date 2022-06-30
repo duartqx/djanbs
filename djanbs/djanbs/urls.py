@@ -20,5 +20,9 @@ import jobs.views # type: ignore
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', jobs.views.home, name='jobs-home'),
+    path('', jobs.views.home, name='home'),
+    path('login/', jobs.views.login_user, name='login'),
+    path('logout/', jobs.views.logout_user, name='logout'),
+    path('register/', jobs.views.register_user, name='register'),
+    #path('apply/<str:
 ]

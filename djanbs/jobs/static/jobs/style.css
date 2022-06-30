@@ -3,22 +3,26 @@
     --dark: #1A1C1E;
     --darker: #141517;
     --blue: #0aafff;
+    --red: #D74545;
 }
 
 body {
     background-color: var(--dark);
     color: var(--light);
-    max-width: 800px;
+    max-width: 900px;
     margin: auto;
+    font-family: monospace;
+    font-size: 16px;
 }
 
 table { 
     border-collapse: collapse; 
+    margin: auto;
 }
 
 th, td {
     border-bottom: 0.05em solid var(--light);
-    padding: 15px;
+    padding: 20px;
     text-align: center;
 }
 
@@ -31,23 +35,53 @@ a {
 }
 
 .button {
-    padding: 8px;
-    background-color: var(--blue);
-    color: var(--light);
-}
-
-.button:hover{
-    background-color: white;
+    font-weight: bold;
     color: var(--blue);
 }
 
-.topbar, .topbar a {
-    padding: 8px;
-    background-color: var(--darker);
+.button:hover{
     color: white;
-    margin: auto;
+}
+
+.topbar, .topbar a {
+    padding: 14px;
+    color: var(--blue);
+    clear: both;
+    display: flex;
+    justify-content: right;
 }
 .topbar a:hover {
-    background-color: var(--blue);
     color: white;
+}
+
+.ralign {
+    margin-right: 0px;
+    margin-left: auto;
+}
+
+.register-n-login, .submit {
+    padding: 14px;
+    color: var(--blue);
+    justify-content: center;
+    display: flex;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.submit {
+    justify-content: center;
+}
+
+input, .register-n-login {
+    width: 50%;
+    padding: 12px 20px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center !important;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.logoutred {
+    color: var(--red);
 }
