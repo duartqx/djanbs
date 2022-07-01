@@ -2,9 +2,11 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import redirect, render
+from django.views.generic import CreateView
 
 from .decorators import unauthenticated_user
-from .models import JobOffer
+from .forms import CandidactRegisterForm
+from .models import JobOffer, User
 
 
 def home(request):
@@ -23,7 +25,7 @@ def home(request):
         return render(request, 'jobs/index.html', context)
 
 
-@unauthenticated_user
+#@unauthenticated_user
 def login_user(request):
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -31,6 +33,7 @@ def login_user(request):
         user = authenticate(username=username, password=password)
         if user is not None and user.is_active:
             print('user login')
+            print(user)
             login(request, user)
             return redirect('home')
     return render(request, 'login.html')
@@ -58,3 +61,17 @@ def register_user(request):
 
 # request.user clica no botão que já tem a job_offer marcada e já faz o post ali
 # request.user.id - job_offer.id
+
+class CandidactRegisterView(CreateView):
+    model = User
+    form_class = CandidactRegisterForm
+    template_name = 'register.html'
+
+    def get_context_data(self, **kwargs):
+        kwargs['user_type'] = 'candidact'
+        return super().get_context_data(**kwargs)
+
+    def form_valid(self, form):
+        user = form.save()
+        login(self.request, user)
+        return redirect('home')

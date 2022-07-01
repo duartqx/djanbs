@@ -15,7 +15,6 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-
 import jobs.views # type: ignore
 
 urlpatterns = [
@@ -24,5 +23,6 @@ urlpatterns = [
     path('login/', jobs.views.login_user, name='login'),
     path('logout/', jobs.views.logout_user, name='logout'),
     path('register/', jobs.views.register_user, name='register'),
-    #path('apply/<str:
+    path('register/candidact/', jobs.views.CandidactRegisterView.as_view(), name='register-cand'),
+    #path('register/company/', jobs.views.CompanyRegisterView.as_view(), name='register-comp'),
 ]

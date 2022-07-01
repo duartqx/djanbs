@@ -1,53 +1,43 @@
-from django.contrib.auth.models import User
+from .choices import EducationRequirement, PaymentRange, PositionLevel
+from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 
 
-class PaymentRange(models.IntegerChoices):
-    LOW = 1 # Up to 1000
-    MID_FIRST = 2 # From 1000 to 2000
-    MID_SECOND = 3 # From 2000 to 3000
-    HIGH = 4 # More than 3000
+class User(AbstractUser):
+    username = models.CharField(max_length = 50, blank = True, null = True, unique = True)
+    email = models.EmailField(_('email address'), unique=True)
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = []
+    #REQUIRED_FIELDS = ['username', 'first_name', 'last_name']
+    is_company = models.BooleanField(default=False)
+    is_candidact = models.BooleanField(default=False)
 
+    def __str__(self):
+        return "{}".format(self.email)
 
-class PositionLevel(models.IntegerChoices):
-    INTERN = 1 # Estágio
-    JUNIOR = 2 # Junior
-    PLENO = 3 # Pleno
-    SENIOR = 4 # Senior
-    LEAD = 5 # Tech Lead/Manager
+class Candidact(models.Model):
+    ''' A user looking for JobOffers '''
+    user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
+    first_name = models.CharField(max_length=20, null=True)
+    last_name = models.CharField(max_length=120, null=True)
+    payment_range = models.IntegerField(choices=PaymentRange.choices, null=True)
+    education = models.IntegerField(choices=EducationRequirement.choices, null=True)
+    position_level = models.IntegerField(choices=PositionLevel.choices, null=True)
 
-
-class EducationRequirement(models.IntegerChoices):
-    MIDDLE = 1 # Fundamental
-    HIGH = 2 # Ensino Médio
-    ASSOCIATE = 3 # Tecnólogo
-    BACHELOR = 4 # Graduação/Licenciatura
-    MASTER = 5 # MBA/MASTER
-    PHD = 6 # Doutorado
+    def __str__(self):
+        return f'{self.first_name} {self.last_name}'
 
 
 class Company(models.Model):
     ''' A Company that may post JobOffer to Candidacts '''
     user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
-    name = models.CharField(max_length=50)
-    email = models.EmailField()
-    site = models.URLField()
+    name = models.CharField(max_length=50, null=True)
+    email = models.EmailField(null=True)
+    site = models.URLField(null=True)
 
     def __str__(self):
         return self.name
-
-
-class Candidact(models.Model):
-    ''' A user looking for JobOffers '''
-    user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
-    first_name = models.CharField(max_length=20)
-    last_name = models.CharField(max_length=120)
-    payment_range = models.IntegerField(choices=PaymentRange.choices)
-    education = models.IntegerField(choices=EducationRequirement.choices)
-    position_level = models.IntegerField(choices=PositionLevel.choices)
-
-    def __str__(self):
-        return f'{self.first_name} {self.last_name}'
 
 
 class JobOffer(models.Model):
@@ -55,7 +45,7 @@ class JobOffer(models.Model):
     name = models.CharField(max_length=125)
     location = models.CharField(max_length=50)
     description = models.TextField(null=True)
-    company = models.ForeignKey(Company, on_delete=models.CASCADE)
+    #company = models.ForeignKey(Company, on_delete=models.CASCADE)
     payment_range = models.IntegerField(choices=PaymentRange.choices)
     education_req = models.IntegerField(choices=EducationRequirement.choices)
     position_level = models.IntegerField(choices=PositionLevel.choices)
