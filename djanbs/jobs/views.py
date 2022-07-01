@@ -2,7 +2,10 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import redirect, render
+
+from .decorators import unauthenticated_user
 from .models import JobOffer
+
 
 def home(request):
     job_offers = JobOffer.objects.all() # type: ignore
@@ -19,6 +22,8 @@ def home(request):
     else:
         return render(request, 'jobs/index.html', context)
 
+
+@unauthenticated_user
 def login_user(request):
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -30,10 +35,13 @@ def login_user(request):
             return redirect('home')
     return render(request, 'login.html')
 
+
 def logout_user(request):
     logout(request)
     return redirect('login')
 
+
+@unauthenticated_user
 def register_user(request):
     form = UserCreationForm()
 
@@ -44,6 +52,7 @@ def register_user(request):
             user = form.cleaned_data.get('username')
             messages.success(request, f'Account created for {user}')
             return redirect('login')
+            # redirect to choose type of account
 
     return render(request, 'register.html', {'form': form})
 

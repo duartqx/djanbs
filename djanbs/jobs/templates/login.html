@@ -5,11 +5,13 @@
         {% csrf_token %}
         <p><input type="text" name="username"></p>
         <p><input type="password" name="password"></p>
-        <button class="register-n-login" type="submit">Log In</button>
-    </form>
+        <button class="submit" type="submit">Log In</button>
     {% for message in messages %}
         <p>{{ message }}</p>
     {% endfor %}
+    </form>
+<br>
+<div class="register-n-login" style="color:white">Don't have an account? <a class="button" href="{% url 'register' %}">Register</a></div>
 <script>
     var form_fields = document.getElementsByTagName('input')
     form_fields[1].placeholder='Username';

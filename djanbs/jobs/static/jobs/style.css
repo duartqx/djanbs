@@ -9,13 +9,14 @@
 body {
     background-color: var(--dark);
     color: var(--light);
-    max-width: 900px;
+    max-width: 1200px;
     margin: auto;
     font-family: monospace;
     font-size: 16px;
 }
 
 table { 
+    width: 100%;
     border-collapse: collapse; 
     margin: auto;
 }
@@ -33,16 +34,6 @@ a {
 .row-hover:hover  {
     background-color: var(--darker);
 }
-
-.button {
-    font-weight: bold;
-    color: var(--blue);
-}
-
-.button:hover{
-    color: white;
-}
-
 .topbar, .topbar a {
     padding: 14px;
     color: var(--blue);
@@ -72,7 +63,7 @@ a {
     justify-content: center;
 }
 
-input, .register-n-login {
+input, button {
     width: 50%;
     padding: 12px 20px;
     box-sizing: border-box;
@@ -85,3 +76,24 @@ input, .register-n-login {
 .logoutred {
     color: var(--red);
 }
+
+button.button {
+    width: 100%;
+    font-weight: bold;
+    color: var(--blue);
+}
+
+.button {
+    color: var(--blue);
+    padding-left: 12px;
+}
+
+.button:hover {
+    color: white;
+}
+
+button.button:hover{
+    background-color: var(--blue);
+}
+
+
