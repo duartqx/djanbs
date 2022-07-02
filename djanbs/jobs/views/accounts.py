@@ -14,6 +14,10 @@ class CandidactRegisterView(CreateView):
     template_name = 'registration/cand-register.html'
     redirect_authenticated_user = True
 
+    def get_context_data(self, **kwargs):
+        kwargs['user_type'] = 'candidact'
+        return super().get_context_data(**kwargs)
+
     def form_valid(self, form):
         user = form.save()
         msg = f'Candidact account successfully created for {user}'

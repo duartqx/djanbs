@@ -5,16 +5,15 @@ from django.utils.translation import gettext_lazy as _
 
 
 class User(AbstractUser):
-    username = models.CharField(max_length = 50, blank = True, null = True, unique = True)
+    username = models.CharField(max_length=50, blank=True, null=True, unique=True)
     email = models.EmailField(_('email address'), unique=True)
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
-    #REQUIRED_FIELDS = ['username', 'first_name', 'last_name']
     is_company = models.BooleanField(default=False)
     is_candidact = models.BooleanField(default=False)
 
     def __str__(self):
-        return "{}".format(self.email)
+        return self.email
 
 class Candidact(models.Model):
     ''' A user looking for JobOffers '''
@@ -45,7 +44,7 @@ class JobOffer(models.Model):
     name = models.CharField(max_length=125)
     location = models.CharField(max_length=50)
     description = models.TextField(null=True)
-    #company = models.ForeignKey(Company, on_delete=models.CASCADE)
+    company = models.ForeignKey(Company, on_delete=models.CASCADE, null=True)
     payment_range = models.IntegerField(choices=PaymentRange.choices)
     education_req = models.IntegerField(choices=EducationRequirement.choices)
     position_level = models.IntegerField(choices=PositionLevel.choices)
