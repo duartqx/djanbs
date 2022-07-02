@@ -1,6 +1,8 @@
 from django.shortcuts import redirect, render
 
-from ..models import JobOffer
+from jobs.forms import JobOfferCreationForm
+
+from ..models import Company, JobOffer
 
 
 def home(request):
@@ -14,3 +16,19 @@ def home(request):
         return redirect('login')
     else:
         return render(request, 'jobs/index.html', context)
+
+
+def create_job_offer(request, pk):
+    company = Company.objects.get(id=pk) # type: ignore
+    #form = JobOfferCreationForm(initial={'company':company})
+    form = JobOfferCreationForm()
+    if request.method == 'POST':
+        #form = JobOfferCreationForm(request.POST, request.user)
+        form = JobOfferCreationForm(request.POST)
+        if form.is_valid():
+            obj = form.save(commit=False)
+            obj.company = company
+            obj.save()
+
+            return redirect('home')
+    return render(request, 'jobs/create-job.html', {'form': form, 'company': company})

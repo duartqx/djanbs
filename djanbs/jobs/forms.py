@@ -4,7 +4,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.db import transaction
 
 
-from .models import Candidact, Company, User
+from .models import Candidact, Company, JobOffer, User
 
 
 class CandidactRegisterForm(UserCreationForm):
@@ -21,16 +21,7 @@ class CandidactRegisterForm(UserCreationForm):
 
     class Meta(UserCreationForm.Meta):
         model = User
-        fields = [
-            "email", 
-            "password1", 
-            "password2", 
-            "first_name", 
-            "last_name",
-            "payment_range",
-            "education",
-            "position_level",
-            ]
+        fields = '__all__'
 
     @transaction.atomic
     def save(self):
@@ -57,13 +48,7 @@ class CompanyRegisterForm(UserCreationForm):
 
     class Meta(UserCreationForm.Meta):
         model = User
-        fields = [
-            "email", 
-            "password1", 
-            "password2", 
-            "name", 
-            "site",
-            ]
+        fields = '__all__'
 
     @transaction.atomic
     def save(self, commit=True):
@@ -79,3 +64,9 @@ class CompanyRegisterForm(UserCreationForm):
             )
         print(company)
         return user
+
+class JobOfferCreationForm(forms.ModelForm):
+    ''' A form that companies see when creating new job offers '''
+    class Meta():
+        model = JobOffer
+        exclude = ('company',)

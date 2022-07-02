@@ -1,0 +1,34 @@
+{% extends "jobs/base.html" %}
+{% block content %}
+<h2 class="register-n-login">{{ company }} - Create a job offer</h2>
+
+<form method="POST" action="">
+    {% csrf_token %}
+    <p>{{ form.name }}</p>
+    <p>{{ form.description }}</p>
+    <p>{{ form.location }}</p>
+    <p class="center">Payment Range:</p>
+    <p>{{ form.payment_range }}</p>
+    <p class="center">Education Requirement:</p>
+    <p>{{ form.education_req }}</p>
+    <p class="center">Position Level:</p>
+    <p>{{ form.position_level }}</p>
+    <input class="submit" type="submit" name="Create Job Offer">
+    <div class="register-n-login" style="color:#D74545">{{ form.errors }}</div>
+</form>
+<br>
+<script>
+    var form_fields = document.getElementsByTagName('input')
+    form_fields[1].placeholder='Job Offer Title';
+    form_fields[2].placeholder='Location (City/Country/Remote)';
+
+    var form_fields = document.getElementsByTagName('textarea')
+    form_fields[0].placeholder='Job Description and Requirements';
+    
+    for (var field in form_fields){
+            form_fields[field].className += ' form-control'
+        }
+    
+
+</script>
+{% endblock content %}

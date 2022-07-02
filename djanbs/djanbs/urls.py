@@ -21,6 +21,7 @@ import jobs.views.accounts # type: ignore
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', jobs.views.views.home, name='home'),
+    path('create-job/<str:pk>/', jobs.views.views.create_job_offer, name='create-job'),
     path('logout/', jobs.views.accounts.logout_user, name='logout'),
     path('login/', 
         jobs.views.accounts.CustomLoginView.as_view(), name='login'),
