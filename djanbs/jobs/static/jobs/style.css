@@ -96,4 +96,14 @@ button.button:hover{
     background-color: var(--blue);
 }
 
+.register-button { 
+    background-color:white;
+    width:50%;
+}
+
+.register-button:hover {
+    background-color: var(--blue);
+    color: white;
+}
+
 

@@ -3,11 +3,11 @@
     <h2 class="register-n-login">Log In</h2>
     <form method="POST">
         {% csrf_token %}
-        <p><input type="text" name="username"></p>
-        <p><input type="password" name="password"></p>
+        <p>{{ form.username }}</p>
+        <p>{{ form.password }}</p>
         <button class="submit" type="submit">Log In</button>
     {% for message in messages %}
-        <p>{{ message }}</p>
+        <p class="register-n-login">{{ message }}</p>
     {% endfor %}
     </form>
 <br>

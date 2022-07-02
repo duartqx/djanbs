@@ -1,0 +1,11 @@
+{% extends "jobs/base.html" %}
+{% block content %}
+<div class="ask_account_type">
+    <p class="register-n-login">Register today for a free account and start using Djanbs</p>
+    <a class="register-n-login register-button" href={% url 'register-cand' %}><h2>Candidact</h1></a>
+    <p class="register-n-login"></p>
+    <a class="register-n-login register-button" href={% url 'register-comp' %}><h2>Company</h2></a>
+</div>
+<p></p>
+<div class="register-n-login" style="color:white">Already have an account?<a class="button" href="{% url 'login' %}">Login</a></div>
+{% endblock content %}

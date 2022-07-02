@@ -15,14 +15,22 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-import jobs.views # type: ignore
+import jobs.views.views # type: ignore
+import jobs.views.accounts # type: ignore
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', jobs.views.home, name='home'),
-    path('login/', jobs.views.login_user, name='login'),
-    path('logout/', jobs.views.logout_user, name='logout'),
-    path('register/', jobs.views.register_user, name='register'),
-    path('register/candidact/', jobs.views.CandidactRegisterView.as_view(), name='register-cand'),
-    #path('register/company/', jobs.views.CompanyRegisterView.as_view(), name='register-comp'),
+    path('', jobs.views.views.home, name='home'),
+    path('logout/', jobs.views.accounts.logout_user, name='logout'),
+    path('login/', 
+        jobs.views.accounts.CustomLoginView.as_view(), name='login'),
+    path('register/', 
+        jobs.views.accounts.ChooseRegisterView.as_view(),
+        name='register'),
+    path('register/candidact/', 
+        jobs.views.accounts.CandidactRegisterView.as_view(),
+        name='register-cand'),
+    path('register/company/', 
+        jobs.views.accounts.CompanyRegisterView.as_view(),
+        name='register-comp'),
 ]

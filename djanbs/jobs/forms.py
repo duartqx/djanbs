@@ -12,17 +12,19 @@ class CandidactRegisterForm(UserCreationForm):
     email = forms.EmailField()
     first_name = forms.CharField(max_length=20)
     last_name = forms.CharField(max_length=120)
-    payment_range = forms.CharField(max_length=50, widget=forms.Select(choices=PaymentRange.choices))
-    education = forms.CharField(max_length=50, widget=forms.Select(choices=EducationRequirement.choices))
-    position_level = forms.CharField(max_length=50, widget=forms.Select(choices=PositionLevel.choices))
+    payment_range = forms.CharField(max_length=50, 
+            widget=forms.Select(choices=PaymentRange.choices))
+    education = forms.CharField(max_length=50, 
+            widget=forms.Select(choices=EducationRequirement.choices))
+    position_level = forms.CharField(max_length=50, 
+            widget=forms.Select(choices=PositionLevel.choices))
 
     class Meta(UserCreationForm.Meta):
         model = User
         fields = [
-            "username", 
+            "email", 
             "password1", 
             "password2", 
-            "email", 
             "first_name", 
             "last_name",
             "payment_range",
@@ -42,20 +44,26 @@ class CandidactRegisterForm(UserCreationForm):
                 payment_range=self.cleaned_data.get('payment_range'),
                 education=self.cleaned_data.get('education'),
                 position_level=self.cleaned_data.get('position_level'),
-                
-
                 ) 
         print(candidact)
         return user
 
+
 class CompanyRegisterForm(UserCreationForm):
 
-    name = forms.CharField(max_length=50)
     email = forms.EmailField()
+    name = forms.CharField(max_length=50)
     site = forms.URLField()
 
     class Meta(UserCreationForm.Meta):
         model = User
+        fields = [
+            "email", 
+            "password1", 
+            "password2", 
+            "name", 
+            "site",
+            ]
 
     @transaction.atomic
     def save(self, commit=True):
@@ -63,8 +71,11 @@ class CompanyRegisterForm(UserCreationForm):
         user.is_company = True
         if commit:
             user.save()
-        company = Company.objects.create(user=user) # type: ignore
-        company.name.add(*self.cleaned_data.get('name'))
-        company.email.add(*self.cleaned_data.get('email'))
-        company.site.add(*self.cleaned_data.get('site'))
+        company = Company.objects.create( # type: ignore
+                user=user,
+                email=self.cleaned_data.get('email'),
+                name=self.cleaned_data.get('name'),
+                site=self.cleaned_data.get('site'),
+            )
+        print(company)
         return user

@@ -1,11 +1,10 @@
 {% extends "jobs/base.html" %}
 {% block content %}
-<h2 class="register-n-login">Register an account</h2>
+<h2 class="register-n-login">Candidact - Register an account</h2>
 
 <form method="POST" action="">
     {% csrf_token %}
-    {{form.as_p}}
-    <!--<p>{{ form.username }}</p>
+    <p>{{ form.email }}</p>
 
     <p>{{ form.password1 }}</p>
 
@@ -21,7 +20,7 @@
     <p>{{ form.education }}</p>
 
     <p class="register-n-login" style="color:white">Position Level:</p>
-    <p>{{ form.position_level }}</p>-->
+    <p>{{ form.position_level }}</p>
 
     <input class="submit" type="submit" name="Create User">
     <div class="register-n-login" style="color:#D74545">{{ form.errors }}</div>
@@ -29,7 +28,7 @@
 <br>
 <div class="register-n-login" style="color:white">Already have an account?<a class="button" href="{% url 'login' %}">Login</a></div>
 
-<!--<script>
+<script>
     var form_fields = document.getElementsByTagName('input')
     form_fields[1].placeholder='Email';
     form_fields[2].placeholder='Password';
@@ -41,5 +40,5 @@
             form_fields[field].className += ' form-control'
         }
 
-</script>-->
+</script>
 {% endblock content %}

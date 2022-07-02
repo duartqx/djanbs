@@ -1,0 +1,35 @@
+{% extends "jobs/base.html" %}
+{% block content %}
+<h2 class="register-n-login">Company - Register an account</h2>
+
+<form method="POST" action="">
+    {% csrf_token %}
+    <p>{{ form.email }}</p>
+
+    <p>{{ form.password1 }}</p>
+
+    <p>{{ form.password2 }}</p>
+
+    <p>{{ form.name }}</p>
+
+    <p>{{ form.site }}</p>
+    <input class="submit" type="submit" name="Create User">
+    <div class="register-n-login" style="color:#D74545">{{ form.errors }}</div>
+</form>
+<br>
+<div class="register-n-login" style="color:white">Already have an account?<a class="button" href="{% url 'login' %}">Login</a></div>
+
+<script>
+    var form_fields = document.getElementsByTagName('input')
+    form_fields[1].placeholder='Email';
+    form_fields[2].placeholder='Password';
+    form_fields[3].placeholder='Password Confirmation';
+    form_fields[4].placeholder='Name';
+    form_fields[5].placeholder='Site';
+
+    for (var field in form_fields){
+            form_fields[field].className += ' form-control'
+        }
+
+</script>
+{% endblock content %}
