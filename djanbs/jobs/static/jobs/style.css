@@ -23,7 +23,7 @@ table {
 
 th, td {
     border-bottom: 0.05em solid var(--light);
-    padding: 20px;
+    padding: 6px;
     text-align: center;
 }
 
@@ -55,7 +55,7 @@ a {
     margin-left: auto;
 }
 
-.register-n-login, .submit {
+.register-n-login, .submit, .details {
     padding: 14px;
     color: var(--blue);
     justify-content: center;
@@ -73,7 +73,7 @@ input, button, select, textarea {
     padding: 12px 20px;
     box-sizing: border-box;
     display: flex;
-    justify-content: center !important;
+    justify-content: center;
     margin-left: auto;
     margin-right: auto;
 }
@@ -82,33 +82,40 @@ input, button, select, textarea {
     color: var(--red);
 }
 
-button.button {
-    width: 100%;
-    font-weight: bold;
-    color: var(--blue);
-}
-
 .button {
-    color: var(--blue);
+    width: 70%;
     padding-left: 12px;
+    font-weight: bold;
+    color: white;
+    background-color: var(--blue);
+    border: none;
 }
 
 .button:hover {
-    color: white;
-}
-
-button.button:hover{
-    background-color: var(--blue);
+    color: var(--blue);
+    background-color: white;
 }
 
 .register-button { 
-    background-color:white;
-    width:50%;
+    color: var(--blue);
+    padding-left: 8px;
+    padding-right: 8px;
+
 }
 
 .register-button:hover {
-    background-color: var(--blue);
     color: white;
 }
 
+.blue {
+    color: var(--blue);
+}
 
+.descrip {
+    border-top: 0.05em solid var(--light);
+    border-bottom: 0.05em solid var(--light);
+    padding-top: 12px;
+    padding-bottom: 12px;
+    width: 80%;
+    margin: auto;
+}

@@ -9,8 +9,10 @@
 	<body>
         <div class="topbar">
             <a href="{% url 'home' %}">Djanbs</a>
-            <a class="ralign" href="#">{{ user_name|capfirst }}</a>
+            {% if user.is_authenticated %}
+            <a class="ralign" href="#">{{ user|capfirst }}</a>
             <a class="ralign logoutred" href="{% url 'logout' %}">Logout</a>
+            {% endif %}
         </div>
         {% block content %}
         {% endblock content %}

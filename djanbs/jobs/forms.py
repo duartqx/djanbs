@@ -4,7 +4,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.db import transaction
 
 
-from .models import Candidact, Company, JobOffer, User
+from .models import Candidact, Company, JobCandidacted, JobOffer, User
 
 
 class CandidactRegisterForm(UserCreationForm):
@@ -70,3 +70,9 @@ class JobOfferCreationForm(forms.ModelForm):
     class Meta():
         model = JobOffer
         exclude = ('company',)
+
+class JobCandidactForm(forms.ModelForm):
+    ''' A form that the user submits when candidacting to a job offer '''
+    class Meta():
+        model = JobCandidacted
+        exclude = ('candidact', 'job_offer')

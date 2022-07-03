@@ -1,13 +1,18 @@
 {% extends "jobs/base.html" %}
 {% block content %}
+
     <div class="job-offers-table">
+        {% for message in messages %}
+            <p class="register-n-login">{{ message }}</p>
+        {% endfor %}
+
         <table>
         <tr>
             <th>Job Name</th>
             <th>Position Level</th>
             <th>Location</th>
             <th>Company</th>
-            <th></th>
+            <th>Details and Apply</th>
         </tr>
         {% for job_offer in job_offers %}
             <tr class="row-hover">
@@ -25,7 +30,7 @@
                 {% endif %}
                 <td>{{ job_offer.location }}</td>
                 <td>{{ job_offer.company }}</td>
-                <td><a href="#"><button class="button">Apply to Offer</button></a></td>
+                <td><a href="{% url 'job-candidact' job_offer.id %} "><button class="button">See Details and Apply</button></a></td>
             </tr>
         {% endfor %}
         </table>

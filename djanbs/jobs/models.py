@@ -3,6 +3,8 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
+from .choices import EducationRequirement, PaymentRange, PositionLevel, int_to_string
+
 
 class User(AbstractUser):
     username = models.CharField(max_length=50, blank=True, null=True, unique=True)
@@ -61,6 +63,9 @@ class JobCandidacted(models.Model):
     job_offer = models.ForeignKey(JobOffer, on_delete=models.CASCADE)
     candidact = models.ForeignKey(Candidact, on_delete=models.SET_NULL, null=True)
     date_candidacted = models.DateTimeField(auto_now_add=True, null=True)
+
+    # Check job_offer and candidact compatibility of education, payment range
+    # and position with other attributes
 
     def _get_cndct_count(self):
         ''' Finds out how many applied to each job_offer '''

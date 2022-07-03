@@ -20,18 +20,36 @@ import jobs.views.accounts # type: ignore
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', jobs.views.views.home, name='home'),
-    path('create-job/<str:pk>/', jobs.views.views.create_job_offer, name='create-job'),
-    path('logout/', jobs.views.accounts.logout_user, name='logout'),
+    
+    path('', 
+        jobs.views.views.home, 
+        name='home'),
+    
+    path('create-job/<str:pk>/', 
+        jobs.views.views.create_job_offer, 
+        name='create-job'),
+    
+    path('logout/', 
+        jobs.views.accounts.logout_user, 
+        name='logout'),
+    
     path('login/', 
-        jobs.views.accounts.CustomLoginView.as_view(), name='login'),
+        jobs.views.accounts.CustomLoginView.as_view(), 
+        name='login'),
+    
     path('register/', 
         jobs.views.accounts.ChooseRegisterView.as_view(),
         name='register'),
+    
     path('register/candidact/', 
         jobs.views.accounts.CandidactRegisterView.as_view(),
         name='register-cand'),
+    
     path('register/company/', 
         jobs.views.accounts.CompanyRegisterView.as_view(),
         name='register-comp'),
+    
+    path('job-candidact/<str:job_id>', 
+        jobs.views.views.candidact_to_job, 
+        name='job-candidact'),
 ]

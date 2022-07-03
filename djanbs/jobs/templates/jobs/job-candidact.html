@@ -1,0 +1,32 @@
+{% extends "jobs/base.html" %}
+{% block content %}
+<h2 class="register-n-login">Job Offer to '<b>{{ job_offer }}</b>' at {{ job_offer.company }}</h2>
+
+<table>
+    <tr class="blue">
+        <th>Location</th>
+        <th>Position Level</th>
+        <th>Education Required</th>
+        <th>Payment Range</th>
+    </tr>
+    <tr>
+    <td>{{ job_offer.location }}</td>
+    <td>{{ pos_level }}</td>
+    <td>{{ education }}</td>
+    <td>{{ payment }}</td>
+    </tr>
+
+</table>
+<br>
+<div class="register-n-login">Job Offer Description:</div>
+<div class="descrip">{{ job_offer.description }}</div>
+
+<br>
+<form method="POST" action="">
+    {% csrf_token %}
+    {{ form }}
+    <div class="register-n-login">{{ candidact }} will you candidact yourself to '<b>{{ job_offer }}</b>'?</div>
+    <input class="submit" type="submit" name="Submit">
+    <div class="register-n-login" style="color:#D74545">{{ form.errors }}</div>
+</form>
+{% endblock content %}
