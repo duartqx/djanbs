@@ -1,0 +1,40 @@
+{% extends "jobs/base.html" %}
+{% block content %}
+{% for message in messages|slice:":1" %}
+<center><p>{{ message }}</p></center>
+{% endfor %}
+<center><h1 class="blue">Hello, {{ request.user.candidact }}!</h1></center>
+
+<a href="{% url 'profile-edit' %}"><button class="button">Edit your Profile</button></a>
+<br>
+<br>
+<center><p>The list of your Job Candidacted</p></center>
+<table>
+<tr class="blue">
+    <th>Job Name</th>
+    <th>Position Level</th>
+    <th>Location</th>
+    <th>Company</th>
+    <th>Details and Apply</th>
+</tr>
+{% for job_offer in candidacted %}
+    <tr class="row-hover">
+        <td>{{ job_offer.job_offer.name }}</td>
+        {% if job_offer.job_offer.position_level == 1 %}
+            <td>Intern</td>
+        {% elif job_offer.job_offer.position_level == 2 %}
+            <td>Junior</td>
+        {% elif job_offer.job_offer.position_level == 3 %}
+            <td>Pleno</td>
+        {% elif job_offer.job_offer.position_level == 4 %}
+            <td>Senior</td>
+        {% elif job_offer.job_offer.position_level == 5 %}
+            <td>Tech Lead</td>
+        {% endif %}
+        <td>{{ job_offer.job_offer.location }}</td>
+        <td>{{ job_offer.job_offer.company }}</td>
+        <td><a href="{% url 'delete-job-application' job_offer.id %}"><button class="delete-button">Give Up on this Offer</button></a></td>
+    </tr>
+{% endfor %}
+</table>
+{% endblock content %}

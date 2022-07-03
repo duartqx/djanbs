@@ -1,8 +1,37 @@
 {% extends "jobs/base.html" %}
 {% block content %}
-<h1> Company Page </h1>
-{{ company_offers }}
-<br>
-<br>
-<td><a href="{% url 'create-job' request.user.company.id %} "><button class="button">Create a New Job Offer</button></a></td>
+<center><h2> {{ request.user.company.name }} </h2></center>
+<td><a href="{% url 'create-offer' request.user.company.id %}"><button class="button">Create a New Job Offer</button></a></td>
+<br> <br>
+
+<table>
+<tr class="blue">
+    <th>Job Name</th>
+    <th>Position Level</th>
+    <th>Location</th>
+    <th>Candidacts</th>
+    <th>Edit</th>
+    <th>Delete</th>
+</tr>
+{% for offer in  company_offers %}
+<tr class="row-hover">
+    <td>{{ offer.name }}</td>
+    {% if offer.position_level == 1 %}
+        <td>Intern</td>
+    {% elif offer.position_level == 2 %}
+        <td>Junior</td>
+    {% elif offer.position_level == 3 %}
+        <td>Pleno</td>
+    {% elif offer.position_level == 4 %}
+        <td>Senior</td>
+    {% elif offer.position_level == 5 %}
+        <td>Tech Lead</td>
+    {% endif %}
+    <td>{{ offer.location }}</td>
+    <td>{{ number_of_candidacts }}</td>
+    <td><a href="{% url 'edit-offer' offer.id %}"><button class="button" style="width:100%">Edit</button></a></td>
+    <td><a href="{% url 'delete-offer' offer.id %}"><button class="delete-button" style="width:80%">Delete</button></a></td>
+</tr>
+{% endfor %}
+</table>
 {% endblock content %}

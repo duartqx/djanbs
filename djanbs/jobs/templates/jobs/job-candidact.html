@@ -33,7 +33,7 @@
     {% csrf_token %}
     {{ form }}
     <div class="register-n-login">{{ candidact }} will you candidact yourself to '<b>{{ job_offer }}</b>'?</div>
-    <input class="submit" type="submit" name="Submit">
+    <input class="submit" type="submit" name="Submit" value="Apply to this Job Offer">
     <div class="register-n-login" style="color:#D74545">{{ form.errors }}</div>
 </form>
 {% endblock content %}

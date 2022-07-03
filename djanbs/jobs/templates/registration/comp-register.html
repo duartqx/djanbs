@@ -1,6 +1,10 @@
 {% extends "jobs/base.html" %}
 {% block content %}
-<h2 class="register-n-login">Company - Register an account</h2>
+{% if not request.user.is_authenticated %}
+    <h2 class="register-n-login">Company - Register an account</h2>
+{% else %}
+    <h2 class="register-n-login">{{ request.user.company.name }} - Edit your account</h2>
+{% endif %}
 
 <form method="POST" action="">
     {% csrf_token %}
@@ -17,7 +21,7 @@
     <div class="register-n-login" style="color:#D74545">{{ form.errors }}</div>
 </form>
 <br>
-<div class="register-n-login" style="color:white">Already have an account?<a class="button" href="{% url 'login' %}">Login</a></div>
+<div class="register-n-login" style="color:white">Already have an account?<a class="rl-button" href="{% url 'login' %}">Login</a></div>
 
 <script>
     var form_fields = document.getElementsByTagName('input')

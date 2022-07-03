@@ -1,0 +1,11 @@
+{% extends "jobs/base.html" %}
+{% block content %}
+<h2 class="register-n-login">{{ request.user.candidact }} - Give Up on <i>'{{ job_candidacted }}'</i> offer?</h2>
+<form action"{% url 'delete-job-application' job_candidacted.id %}" method="POST">
+
+    {% csrf_token %}
+    <center><a class="cancel-button" href="{% url 'profile' %}">Cancel</a></center>
+    <br>
+    <input class="delete-button" type="submit" name="Give up on Job Offer" value="Give Up on this Offer">
+</form>
+{% endblock content %}

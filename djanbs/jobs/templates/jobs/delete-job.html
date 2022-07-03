@@ -1,0 +1,11 @@
+{% extends "jobs/base.html" %}
+{% block content %}
+<h2 class="register-n-login">{{ request.user.company.name }} - Delete <i>'{{ job_offer.name }}'</i> offer?</h2>
+<form action"{% url 'delete-offer' job_offer.id %}" method="POST">
+
+    {% csrf_token %}
+    <center><a class="cancel-button" href="{% url 'home' %}">Cancel</a></center>
+    <br>
+    <input class="delete-button" type="submit" name="Delete Job Offer" value="Delete Offer">
+</form>
+{% endblock content %}

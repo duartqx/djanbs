@@ -1,6 +1,8 @@
+from django.contrib import messages
 from .choices import EducationRequirement, PaymentRange, PositionLevel
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import Group
 from django.db import transaction
 
 
@@ -21,22 +23,44 @@ class CandidactRegisterForm(UserCreationForm):
 
     class Meta(UserCreationForm.Meta):
         model = User
-        fields = '__all__'
+        fields = [
+            "email", 
+            "password1", 
+            "password2", 
+            "first_name", 
+            "last_name",
+            "payment_range",
+            "education",
+            "position_level",
+            ]
 
     @transaction.atomic
-    def save(self):
+    def save(self, create=False):
         user = super().save(commit=False)
         user.is_candidact = True
         user.save()
-        candidact = Candidact.objects.create( # type: ignore
-                user=user,
-                first_name=self.cleaned_data.get('first_name'),
-                last_name=self.cleaned_data.get('last_name'),
-                payment_range=self.cleaned_data.get('payment_range'),
-                education=self.cleaned_data.get('education'),
-                position_level=self.cleaned_data.get('position_level'),
-                ) 
-        print(candidact)
+
+        if create:
+            candidact = Candidact.objects.create( # type: ignore
+                    user=user,
+                    first_name=self.cleaned_data.get('first_name'),
+                    last_name=self.cleaned_data.get('last_name'),
+                    payment_range=self.cleaned_data.get('payment_range'),
+                    education=self.cleaned_data.get('education'),
+                    position_level=self.cleaned_data.get('position_level'),
+                    ) 
+        else:
+            candidact = Candidact.objects.filter(user=user).update( # type: ignore
+                    user=user,
+                    first_name=self.cleaned_data.get('first_name'),
+                    last_name=self.cleaned_data.get('last_name'),
+                    payment_range=self.cleaned_data.get('payment_range'),
+                    education=self.cleaned_data.get('education'),
+                    position_level=self.cleaned_data.get('position_level'),
+                    ) 
+
+        group = Group.objects.get(name='candidact')
+        user.groups.add(group)
         return user
 
 
@@ -48,21 +72,27 @@ class CompanyRegisterForm(UserCreationForm):
 
     class Meta(UserCreationForm.Meta):
         model = User
-        fields = '__all__'
+        fields = [
+            "email", 
+            "password1", 
+            "password2", 
+            "name", 
+            "site",
+            ]
 
     @transaction.atomic
-    def save(self, commit=True):
+    def save(self):
         user = super().save(commit=False)
         user.is_company = True
-        if commit:
-            user.save()
+        user.save()
         company = Company.objects.create( # type: ignore
                 user=user,
                 email=self.cleaned_data.get('email'),
                 name=self.cleaned_data.get('name'),
                 site=self.cleaned_data.get('site'),
             )
-        print(company)
+        group = Group.objects.get(name='company')
+        user.groups.add(group)
         return user
 
 class JobOfferCreationForm(forms.ModelForm):

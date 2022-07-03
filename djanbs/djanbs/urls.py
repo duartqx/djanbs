@@ -25,9 +25,25 @@ urlpatterns = [
         jobs.views.views.home, 
         name='home'),
     
-    path('create-job/<str:pk>/', 
+    path('profile/', 
+        jobs.views.views.profile, 
+        name='profile'),
+
+    path('profile/edit/', 
+        jobs.views.views.profile_edit, 
+        name='profile-edit'),
+
+    path('create-offer/<str:pk>/', 
         jobs.views.views.create_job_offer, 
-        name='create-job'),
+        name='create-offer'),
+
+    path('edit-offer/<str:pk>/', 
+        jobs.views.views.edit_job_offer, 
+        name='edit-offer'),
+    
+    path('delete-offer/<str:pk>/', 
+        jobs.views.views.delete_job_offer, 
+        name='delete-offer'),
     
     path('logout/', 
         jobs.views.accounts.logout_user, 
@@ -49,7 +65,12 @@ urlpatterns = [
         jobs.views.accounts.CompanyRegisterView.as_view(),
         name='register-comp'),
     
-    path('job-candidact/<str:job_id>', 
+    path('job-candidact/<str:job_id>/', 
         jobs.views.views.candidact_to_job, 
         name='job-candidact'),
+
+    path('delete-job-application/<str:job_id>/',
+        jobs.views.views.delete_job_application,
+        name='delete-job-application'),
+
 ]

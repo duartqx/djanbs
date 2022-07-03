@@ -74,4 +74,6 @@ class JobCandidacted(models.Model):
                     "candidact").distinct().count() 
 
     def __str__(self):
-        return f'{self.job_offer} ({self._get_cndct_count()} applied) - {self.candidact}' # type: ignore
+        #return f'{self.job_offer} ({self._get_cndct_count()} applied) - {self.candidact}' # type: ignore
+        return f'{self.job_offer}'
+

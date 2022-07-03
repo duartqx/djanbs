@@ -10,7 +10,7 @@
         <div class="topbar">
             <a href="{% url 'home' %}">Djanbs</a>
             {% if user.is_authenticated %}
-            <a class="ralign" href="#">{{ user|capfirst }}</a>
+            <a class="ralign" href="{% url 'profile' %}">{{ user|capfirst }}</a>
             <a class="ralign logoutred" href="{% url 'logout' %}">Logout</a>
             {% endif %}
         </div>
