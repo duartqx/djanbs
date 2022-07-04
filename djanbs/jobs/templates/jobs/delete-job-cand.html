@@ -1,7 +1,7 @@
 {% extends "jobs/base.html" %}
 {% block content %}
-<h2 class="register-n-login">{{ request.user.candidact }} - Give Up on <i>'{{ job_candidacted }}'</i> offer?</h2>
-<form action"{% url 'delete-job-application' job_candidacted.id %}" method="POST">
+<h2 class="register-n-login">{{ request.user.candidate }} - Give Up on <i>'{{ job_candidated }}'</i> offer?</h2>
+<form action"{% url 'delete-job-application' job_candidated.id %}" method="POST">
 
     {% csrf_token %}
     <center><a class="cancel-button" href="{% url 'profile' %}">Cancel</a></center>

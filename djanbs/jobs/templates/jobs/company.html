@@ -9,11 +9,12 @@
     <th>Job Name</th>
     <th>Position Level</th>
     <th>Location</th>
-    <th>Candidacts</th>
+    <th>Candidates</th>
+    <th>Details</th>
     <th>Edit</th>
     <th>Delete</th>
 </tr>
-{% for offer in  company_offers %}
+{% for offer, num_of_cand in company_offers_cand %}
 <tr class="row-hover">
     <td>{{ offer.name }}</td>
     {% if offer.position_level == 1 %}
@@ -28,7 +29,8 @@
         <td>Tech Lead</td>
     {% endif %}
     <td>{{ offer.location }}</td>
-    <td>{{ number_of_candidacts }}</td>
+    <td>{{ num_of_cand }}</td>
+    <td><a href="{% url 'details-offer' offer.id %}"><button class="w-button" style="width:80%;border:none">Details</button></a></td>
     <td><a href="{% url 'edit-offer' offer.id %}"><button class="button" style="width:100%">Edit</button></a></td>
     <td><a href="{% url 'delete-offer' offer.id %}"><button class="delete-button" style="width:80%">Delete</button></a></td>
 </tr>

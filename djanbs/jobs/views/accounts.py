@@ -1,4 +1,4 @@
-from ..forms import CandidactRegisterForm, CompanyRegisterForm
+from ..forms import CandidateRegisterForm, CompanyRegisterForm
 from ..models import User
 
 from django.contrib import messages
@@ -8,19 +8,19 @@ from django.shortcuts import redirect
 from django.views.generic import CreateView, TemplateView
 
 
-class CandidactRegisterView(CreateView):
+class CandidateRegisterView(CreateView):
     model = User
-    form_class = CandidactRegisterForm
+    form_class = CandidateRegisterForm
     template_name = 'registration/cand-register.html'
     redirect_authenticated_user = True
 
     def get_context_data(self, **kwargs):
-        kwargs['user_type'] = 'candidact'
+        kwargs['user_type'] = 'candidate'
         return super().get_context_data(**kwargs)
 
     def form_valid(self, form):
         user = form.save()
-        msg = f'Candidact account successfully created for {user}'
+        msg = f'Candidate account successfully created for {user}'
         messages.success(self.request, msg)
         return redirect('login')
 
@@ -43,7 +43,7 @@ class CompanyRegisterView(CreateView):
 
 
 class ChooseRegisterView(TemplateView):
-    ''' Asks the user if they are a candidact looking for a job or a company
+    ''' Asks the user if they are a candidate looking for a job or a company
     giving job offers '''
     template_name = 'registration/register.html'
     redirect_authenticated_user = True

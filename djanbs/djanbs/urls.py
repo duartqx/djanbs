@@ -45,6 +45,10 @@ urlpatterns = [
         jobs.views.views.delete_job_offer, 
         name='delete-offer'),
     
+    path('details-offer/<str:pk>/', 
+        jobs.views.views.details_job_offer, 
+        name='details-offer'),
+    
     path('logout/', 
         jobs.views.accounts.logout_user, 
         name='logout'),
@@ -57,17 +61,17 @@ urlpatterns = [
         jobs.views.accounts.ChooseRegisterView.as_view(),
         name='register'),
     
-    path('register/candidact/', 
-        jobs.views.accounts.CandidactRegisterView.as_view(),
+    path('register/candidate/', 
+        jobs.views.accounts.CandidateRegisterView.as_view(),
         name='register-cand'),
     
     path('register/company/', 
         jobs.views.accounts.CompanyRegisterView.as_view(),
         name='register-comp'),
     
-    path('job-candidact/<str:job_id>/', 
-        jobs.views.views.candidact_to_job, 
-        name='job-candidact'),
+    path('job-candidate/<str:job_id>/', 
+        jobs.views.views.candidate_to_job, 
+        name='job-candidate'),
 
     path('delete-job-application/<str:job_id>/',
         jobs.views.views.delete_job_application,

@@ -1,4 +1,3 @@
-from django.contrib import messages
 from .choices import EducationRequirement, PaymentRange, PositionLevel
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
@@ -6,10 +5,10 @@ from django.contrib.auth.models import Group
 from django.db import transaction
 
 
-from .models import Candidact, Company, JobCandidacted, JobOffer, User
+from .models import Candidate, Company, JobCandidated, JobOffer, User
 
 
-class CandidactRegisterForm(UserCreationForm):
+class CandidateRegisterForm(UserCreationForm):
     
     email = forms.EmailField()
     first_name = forms.CharField(max_length=20)
@@ -35,13 +34,13 @@ class CandidactRegisterForm(UserCreationForm):
             ]
 
     @transaction.atomic
-    def save(self, create=False):
+    def save(self, create=True):
         user = super().save(commit=False)
-        user.is_candidact = True
+        user.is_candidate = True
         user.save()
 
         if create:
-            candidact = Candidact.objects.create( # type: ignore
+            candidate = Candidate.objects.create( # type: ignore
                     user=user,
                     first_name=self.cleaned_data.get('first_name'),
                     last_name=self.cleaned_data.get('last_name'),
@@ -50,7 +49,7 @@ class CandidactRegisterForm(UserCreationForm):
                     position_level=self.cleaned_data.get('position_level'),
                     ) 
         else:
-            candidact = Candidact.objects.filter(user=user).update( # type: ignore
+            candidate = Candidate.objects.filter(user=user).update( # type: ignore
                     user=user,
                     first_name=self.cleaned_data.get('first_name'),
                     last_name=self.cleaned_data.get('last_name'),
@@ -59,8 +58,9 @@ class CandidactRegisterForm(UserCreationForm):
                     position_level=self.cleaned_data.get('position_level'),
                     ) 
 
-        group = Group.objects.get(name='candidact')
-        user.groups.add(group)
+        if Group.objects.filter(name='candidate').exists():
+            group = Group.objects.get(name='candidate')
+            user.groups.add(group)
         return user
 
 
@@ -91,8 +91,9 @@ class CompanyRegisterForm(UserCreationForm):
                 name=self.cleaned_data.get('name'),
                 site=self.cleaned_data.get('site'),
             )
-        group = Group.objects.get(name='company')
-        user.groups.add(group)
+        if Group.objects.filter(name='company').exists():
+            group = Group.objects.get(name='company')
+            user.groups.add(group)
         return user
 
 class JobOfferCreationForm(forms.ModelForm):
@@ -101,8 +102,8 @@ class JobOfferCreationForm(forms.ModelForm):
         model = JobOffer
         exclude = ('company',)
 
-class JobCandidactForm(forms.ModelForm):
-    ''' A form that the user submits when candidacting to a job offer '''
+class JobCandidateForm(forms.ModelForm):
+    ''' A form that the user submits when candidating to a job offer '''
     class Meta():
-        model = JobCandidacted
-        exclude = ('candidact', 'job_offer')
+        model = JobCandidated
+        exclude = ('candidate', 'job_offer')

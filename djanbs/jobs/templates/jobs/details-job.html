@@ -1,0 +1,32 @@
+{% extends "jobs/base.html" %}
+{% block content %}
+<center><h2> {{ request.user.company.name }} </h2></center>
+<br>
+<center><h3> {{ job_offer }} </h3></center>
+
+
+<table>
+<tr class="blue">
+    <th>Candidate</th>
+    <th>Candidate Fits Position Level?</th>
+    <th>Candidate Fits Education Requirement?</th>
+    <th>Candidate Payment Range Fits Offer?</th>
+</tr>
+{% for jc in offer_candidates %}
+<tr>
+    <td>{{ jc.candidate }}</td>
+    {% if jc.candidate.position_level >= job_offer.position_level %}
+        <td>True</td>
+    {% else %}
+        <td>False</td>
+    {% endif %}
+    {% if jc.candidate.education >= job_offer.education_req %}
+        <td>True</td>
+    {% else %}
+        <td>False</td>
+    {% endif %}
+    <td>{{ jc.candidate.payment_range }}</td>
+</tr>
+{% endfor %}
+</table>
+{% endblock content %}

@@ -1,9 +1,9 @@
 {% extends "jobs/base.html" %}
 {% block content %}
 {% if request.user.is_authenticated %}
-<h2 class="register-n-login">{{ request.user.candidact }} - Edit your account</h2>
+<h2 class="register-n-login">{{ request.user.candidate }} - Edit your account</h2>
 {% else %}
-<h2 class="register-n-login">Candidact - Register an account</h2>
+<h2 class="register-n-login">Candidate - Register an account</h2>
 {% endif %}
 
 <form method="POST" action="">

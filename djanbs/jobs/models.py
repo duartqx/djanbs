@@ -10,14 +10,14 @@ class User(AbstractUser):
     username = models.CharField(max_length=50, blank=True, null=True, unique=True)
     email = models.EmailField(_('email address'), unique=True)
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = []
+    REQUIRED_FIELDS = ['username', 'password']
     is_company = models.BooleanField(default=False)
-    is_candidact = models.BooleanField(default=False)
+    is_candidate = models.BooleanField(default=False)
 
     def __str__(self):
         return self.email
 
-class Candidact(models.Model):
+class Candidate(models.Model):
     ''' A user looking for JobOffers '''
     user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
     first_name = models.CharField(max_length=20, null=True)
@@ -31,7 +31,7 @@ class Candidact(models.Model):
 
 
 class Company(models.Model):
-    ''' A Company that may post JobOffer to Candidacts '''
+    ''' A Company that may post JobOffer to Candidates '''
     user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
     name = models.CharField(max_length=50, null=True)
     email = models.EmailField(null=True)
@@ -56,24 +56,23 @@ class JobOffer(models.Model):
         return self.name
 
 
-class JobCandidacted(models.Model):
-    ''' When a candidact candidacts himself to a JobOffer we write this
+class JobCandidated(models.Model):
+    ''' When a candidate candidates himself to a JobOffer we write this
     relationship into the database for future access by the site
-    administration, companies or the candidact himself '''
+    administration, companies or the candidate himself '''
     job_offer = models.ForeignKey(JobOffer, on_delete=models.CASCADE)
-    candidact = models.ForeignKey(Candidact, on_delete=models.SET_NULL, null=True)
-    date_candidacted = models.DateTimeField(auto_now_add=True, null=True)
+    candidate = models.ForeignKey(Candidate, on_delete=models.SET_NULL, null=True)
+    date_candidated = models.DateTimeField(auto_now_add=True, null=True)
 
-    # Check job_offer and candidact compatibility of education, payment range
+    # Check job_offer and candidate compatibility of education, payment range
     # and position with other attributes
 
     def _get_cndct_count(self):
         ''' Finds out how many applied to each job_offer '''
-        return JobCandidacted.objects.filter( # type: ignore
+        return JobCandidated.objects.filter( # type: ignore
                 job_offer=self.job_offer).values(
-                    "candidact").distinct().count() 
+                    "candidate").distinct().count() 
 
     def __str__(self):
-        #return f'{self.job_offer} ({self._get_cndct_count()} applied) - {self.candidact}' # type: ignore
+        #return f'{self.job_offer} ({self._get_cndct_count()} applied) - {self.candidate}' # type: ignore
         return f'{self.job_offer}'
-

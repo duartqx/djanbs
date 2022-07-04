@@ -102,10 +102,6 @@ input, button, select, textarea, .cancel-button {
     border: none;
 }
 
-.delete-button:hover {
-    background-color: var(--darkred);
-}
-
 .cancel-button {
     background-color: var(--blue);
 }
@@ -146,4 +142,8 @@ input, button, select, textarea, .cancel-button {
 
 .rl-button:hover {
     color: white;
+}
+
+.w-button:hover, .delete-button:hover {
+    filter: brightness(80%);
 }

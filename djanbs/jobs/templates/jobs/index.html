@@ -5,7 +5,6 @@
         {% for message in messages %}
             <p class="register-n-login">{{ message }}</p>
         {% endfor %}
-
         <table>
         <tr class="blue">
             <th>Job Name</th>
@@ -30,7 +29,7 @@
                 {% endif %}
                 <td>{{ job_offer.location }}</td>
                 <td>{{ job_offer.company }}</td>
-                <td><a href="{% url 'job-candidact' job_offer.id %} "><button class="button">See Details and Apply</button></a></td>
+                <td><a href="{% url 'job-candidate' job_offer.id %} "><button class="button">See Details and Apply</button></a></td>
             </tr>
         {% endfor %}
         </table>

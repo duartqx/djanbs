@@ -3,12 +3,12 @@
 {% for message in messages|slice:":1" %}
 <center><p>{{ message }}</p></center>
 {% endfor %}
-<center><h1 class="blue">Hello, {{ request.user.candidact }}!</h1></center>
+<center><h1 class="blue">Hello, {{ request.user.candidate }}!</h1></center>
 
 <a href="{% url 'profile-edit' %}"><button class="button">Edit your Profile</button></a>
 <br>
 <br>
-<center><p>The list of your Job Candidacted</p></center>
+<center><p>The list of your Job Candidated</p></center>
 <table>
 <tr class="blue">
     <th>Job Name</th>
@@ -17,7 +17,7 @@
     <th>Company</th>
     <th>Details and Apply</th>
 </tr>
-{% for job_offer in candidacted %}
+{% for job_offer in candidated %}
     <tr class="row-hover">
         <td>{{ job_offer.job_offer.name }}</td>
         {% if job_offer.job_offer.position_level == 1 %}
