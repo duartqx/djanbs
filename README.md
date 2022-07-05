@@ -35,8 +35,8 @@ By clicking their login name at the top of the app user can access their profile
 The main page for candidates show a list of currently open job offers where they can see more details about the offer and candidate themselves
 
 For Companies the mainpage lists their job offers where they can see how many users applied themselves to those offers (these candidates are also ranked by their score), edit each offer or delete them
-There's also a details link that shows every candidate to these offers and their infos and if these candidates fit into the offers requirements
+There's also a details link that shows every candidate to these offers and their infos and if these candidates fit into the offers requirements.
 
 ## More Work to be Done
 
-Currently Djanbs is still a work in progress and can show some little inconsistencies on it's css and pages that have dynamic tables need pagination
+Currently Djanbs is still a work in progress and can show some little inconsistencies on it's css, some pages that have dynamic tables need pagination and a migration to postgresql instead of sqlite.
