@@ -14,9 +14,10 @@
     <p class="center">Position Level:</p>
     <p>{{ form.position_level }}</p>
     <br>
-    <input class="submit" type="submit" name="{{ operation }} Job Offer">
+    <input class="submit" type="submit" name="submit-offer" value="{{ operation }} Job Offer">
     <div class="register-n-login" style="color:#D74545">{{ form.errors }}</div>
 </form>
+    <center><a class="delete-button" style="padding:12px" href="{% url 'home' %}">Cancel</a></center>
 <br>
 <script>
     var form_fields = document.getElementsByTagName('input')

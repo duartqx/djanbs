@@ -8,7 +8,8 @@
 <a href="{% url 'profile-edit' %}"><button class="button">Edit your Profile</button></a>
 <br>
 <br>
-<center><p>The list of your Job Candidated</p></center>
+<center><h3>The list of your Job Candidated</h3></center>
+<br>
 <table>
 <tr class="blue">
     <th>Job Name</th>
@@ -33,7 +34,7 @@
         {% endif %}
         <td>{{ job_offer.job_offer.location }}</td>
         <td>{{ job_offer.job_offer.company }}</td>
-        <td><a href="{% url 'delete-job-application' job_offer.id %}"><button class="delete-button">Give Up on this Offer</button></a></td>
+        <td><a href="{% url 'delete-job-application' job_offer.id %}"><button class="delete-button" style="padding:12px" >Give Up on this Offer</button></a></td>
     </tr>
 {% endfor %}
 </table>

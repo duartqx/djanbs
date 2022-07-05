@@ -28,5 +28,5 @@ class EducationRequirement(models.IntegerChoices):
 def int_to_string(int_choice, integer) -> str:
     for num, string in int_choice.choices: # type: ignore
         if num == integer:
-            return string
+            return string.capitalize()
     return ''

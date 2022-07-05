@@ -77,4 +77,8 @@ urlpatterns = [
         jobs.views.views.delete_job_application,
         name='delete-job-application'),
 
+    path('details-cand/<str:jc_id>/',
+        jobs.views.views.cand_details,
+        name='details-cand'),
+
 ]

@@ -4,6 +4,7 @@
 <h2 class="register-n-login">{{ request.user.candidate }} - Edit your account</h2>
 {% else %}
 <h2 class="register-n-login">Candidate - Register an account</h2>
+<center><div style="color:#D74545;padding:12px">{{ form.errors }}</div></center>
 {% endif %}
 
 <form method="POST" action="">
@@ -17,22 +18,26 @@
     <p>{{ form.first_name }}</p>
 
     <p>{{ form.last_name }}</p>
-    <p class="register-n-login" style="color:white">Payment Range:</p>
-    <p>{{ form.payment_range }}</p>
+    <center><p style="color:white;padding:0px">Payment Range:</p>
+        <p>{{ form.payment_range }}</p>
     
-    <p class="register-n-login" style="color:white">Education:</p>
+    <p style="color:white;padding=0px">Education:</p>
     <p>{{ form.education }}</p>
 
-    <p class="register-n-login" style="color:white">Position Level:</p>
-    <p>{{ form.position_level }}</p>
+    <p style="color:white;padding=0px">Position Level:</p>
+    <p>{{ form.position_level }}</p></center>
 
-    <input class="submit" type="submit" name="Create User">
-    <div class="register-n-login" style="color:#D74545">{{ form.errors }}</div>
-</form>
-<br>
-{% if not request.user.is_authenticated %}
-<div class="register-n-login" style="color:white">Already have an account?<a class="rl-button" href="{% url 'login' %}">Login</a></div>
+    <input class="submit" style="margin-bottom:4px" type="submit" name="Create User">
+    <br>
+{% if request.user.is_authenticated %}
+<center><a class="delete-button" style="padding:12px" href="{% url 'profile' %}">Cancel</a></center>
+{% else %}
+<center><a class="delete-button" style="padding:12px"  href="{% url 'home' %}">Cancel</a>
+    <br>
+<div style="color:white">Already have an account?<a class="rl-button" href="{% url 'login' %}">Login</a></div>
+</center>
 {% endif %}
+</form>
 
 <script>
     var form_fields = document.getElementsByTagName('input')

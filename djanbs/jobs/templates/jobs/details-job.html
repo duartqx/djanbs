@@ -2,31 +2,28 @@
 {% block content %}
 <center><h2> {{ request.user.company.name }} </h2></center>
 <br>
-<center><h3> {{ job_offer }} </h3></center>
-
+<center><h3>List of Candidates for '{{ job_offer }}' Job Offer </h3></center>
 
 <table>
 <tr class="blue">
     <th>Candidate</th>
-    <th>Candidate Fits Position Level?</th>
-    <th>Candidate Fits Education Requirement?</th>
-    <th>Candidate Payment Range Fits Offer?</th>
+    <th>Fits Education Requirement?</th>
+    <th>Fits Position Level?</th>
+    <th>Payment Range Fits Offer?</th>
+    <th>Pontuation</th>
+    <th>Cand. Details</th>
 </tr>
 {% for jc in offer_candidates %}
-<tr>
+<tr class="row-hover">
     <td>{{ jc.candidate }}</td>
-    {% if jc.candidate.position_level >= job_offer.position_level %}
-        <td>True</td>
-    {% else %}
-        <td>False</td>
-    {% endif %}
-    {% if jc.candidate.education >= job_offer.education_req %}
-        <td>True</td>
-    {% else %}
-        <td>False</td>
-    {% endif %}
-    <td>{{ jc.candidate.payment_range }}</td>
+    <td>{{ jc.education }}</td>
+    <td>{{ jc.position_level }}</td>
+    <td>{{ jc.payment_range }}</td>
+    <td>{{ jc.cand_pontuation }}</td>
+    <td><a href="{% url 'details-cand' jc.id %}"><button class="w-button" style="width:80%;border:none">Details</button></a></td>
 </tr>
 {% endfor %}
 </table>
+<br>
+<center><a class="cancel-button" href="{% url 'home' %}">Go Back to your Home</a>
 {% endblock content %}

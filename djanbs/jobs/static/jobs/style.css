@@ -106,9 +106,13 @@ input, button, select, textarea, .cancel-button {
     background-color: var(--blue);
 }
 
-.cancel-button: hover {
+.cancel-button:hover {
     background-color: white;
     color: var(--blue);
+}
+
+.light-cancel-button {
+    background-color: var(--light);
 }
 
 .register-button { 

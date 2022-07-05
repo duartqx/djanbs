@@ -3,7 +3,7 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
-from .choices import EducationRequirement, PaymentRange, PositionLevel, int_to_string
+from .choices import EducationRequirement, PaymentRange, PositionLevel#, int_to_string
 
 
 class User(AbstractUser):
@@ -64,8 +64,27 @@ class JobCandidated(models.Model):
     candidate = models.ForeignKey(Candidate, on_delete=models.SET_NULL, null=True)
     date_candidated = models.DateTimeField(auto_now_add=True, null=True)
 
-    # Check job_offer and candidate compatibility of education, payment range
-    # and position with other attributes
+    def education(self):
+        return self.job_offer.education_req <= self.candidate.education # type: ignore
+
+    def position_level(self):
+        return self.job_offer.position_level <= self.candidate.position_level # type: ignore
+    
+    def payment_range(self):
+        return self.job_offer.payment_range >= self.candidate.payment_range # type: ignore
+    
+    def cand_pontuation(self):
+        cand_points = []
+        fields = [
+            (self.job_offer.education_req, self.candidate.education), # type: ignore
+            (self.job_offer.position_level, self.candidate.position_level), # type: ignore
+            (self.candidate.payment_range, self.job_offer.payment_range), # type: ignore
+            ]
+        for i, j in fields:
+            if i < j: cand_points.append(2)
+            elif i == j: cand_points.append(1)
+            else: cand_points.append(0)
+        return sum(cand_points)
 
     def _get_cndct_count(self):
         ''' Finds out how many applied to each job_offer '''

@@ -36,3 +36,7 @@ The main page for candidates show a list of currently open job offers where they
 
 For Companies the mainpage lists their job offers where they can see how many users candidated themselves to those offers, edit each offer or delete them
 There's also a details link that shows every candidate to these offers and their infos and if these candidates fit into the offers requirements
+
+## More Work to be Done
+
+Currently Djanbs is still a work in progress and can show some little inconsistencies on it's css

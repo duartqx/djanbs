@@ -1,0 +1,51 @@
+{% extends "jobs/base.html" %}
+{% block content %}
+<center><h2> {{ request.user.company.name }} </h2></center>
+<br>
+<center><h3>{{jc.candidate}}'s Details</h3></center>
+<table>
+<tr class="blue row-hover">
+    <th>Complete Name</th>
+    <th>Email</th>
+    <th>Level</th>
+    <th>Degree</th>
+</tr>
+<tr class="row-hover">
+    <td>{{ jc.candidate.first_name }} {{ jc.candidate.last_name }}</td>
+    <td>{{ jc.candidate.user.email }}</td>
+    <td>{{ jc_position_level.0 }}</td>
+    <td>{{ jc_education.0 }}</td>
+</tr>
+</table>
+<br>
+<center><h3>Details comparing {{jc.candidate}}'s infos to {{ jc.job_offer }}'s infos</h3></center>
+
+<table>
+<thead>
+<tr class="blue row-hover">
+    <th></th>
+    <th>Candidate</th>
+    <th>Job Offer</th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-hover">
+    <th class="blue">Education</th>
+    <td>{{ jc_education.0 }}</td>
+    <td>{{ jc_education.1 }}</td>
+</tr>
+<!--<tr class="row-hover">
+    <th class="blue">Position Level</th>
+    <td>{{ jc_position_level.0 }}</td>
+    <td>{{ jc_position_level.1 }}</td>
+</tr>-->
+<tr class="row-hover">
+    <th class="blue">Payment Range</th>
+    <td>{{ jc_payment_range.0 }}</td>
+    <td>{{ jc_payment_range.1 }}</td>
+</tr>
+</tbody>
+</table>
+<br> <br>
+<center><a class="cancel-button" href="{% url 'details-offer' jc.job_offer.id %}">Go Back</a></center>
+{% endblock content %}

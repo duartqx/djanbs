@@ -13,7 +13,7 @@ class CandidateRegisterView(CreateView):
     form_class = CandidateRegisterForm
     template_name = 'registration/cand-register.html'
     redirect_authenticated_user = True
-
+    
     def get_context_data(self, **kwargs):
         kwargs['user_type'] = 'candidate'
         return super().get_context_data(**kwargs)

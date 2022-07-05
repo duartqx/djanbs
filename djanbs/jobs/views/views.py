@@ -2,11 +2,13 @@ from django.contrib import messages
 from django.contrib.auth import login
 from django.shortcuts import Http404, redirect, render
 
-from jobs.forms import CandidateRegisterForm, CompanyRegisterForm, JobCandidateForm, JobOfferCreationForm
+from jobs.forms import (CandidateRegisterForm, CompanyRegisterForm, 
+                        JobCandidateForm, JobOfferCreationForm)
 
-from ..models import Candidate, Company, JobCandidated, JobOffer
-from ..choices import EducationRequirement, PaymentRange, PositionLevel, int_to_string
+from ..choices import (EducationRequirement, PaymentRange, 
+                       PositionLevel, int_to_string)
 from ..decorators import allowed_groups
+from ..models import Candidate, Company, JobCandidated, JobOffer
 
 
 def home(request):
@@ -80,14 +82,40 @@ def delete_job_offer(request, pk):
 def details_job_offer(request, pk):
     job_offer = JobOffer.objects.get(id=pk) # type: ignore
     if request.user.company.id == job_offer.company.id:
-        offer_candidates = [
-            jc for jc in JobCandidated.objects.filter(job_offer=job_offer)]
+        offer_cnd = [jc for jc in JobCandidated.objects.filter(job_offer=job_offer)] # type: ignore
+        offer_cnd = sorted(offer_cnd,key=lambda x: x.cand_pontuation(), reverse=True)
+        
         context = {
             'job_offer': job_offer,
-            'offer_candidates': offer_candidates,
+            'offer_candidates': offer_cnd,
             }
+
         return render(request, 'jobs/details-job.html', context)
     raise Http404
+
+
+@allowed_groups(allowed_roles=['company'])
+def cand_details(request, jc_id):
+    jc = JobCandidated.objects.get(id=jc_id) # type: ignore
+    jc_education: tuple[str, str] = (
+        int_to_string(EducationRequirement, jc.candidate.education), 
+        int_to_string(EducationRequirement, jc.job_offer.education_req)
+        )
+    jc_position_level: tuple[str, str] = (
+        int_to_string(PositionLevel, jc.candidate.position_level), 
+        int_to_string(PositionLevel, jc.job_offer.position_level)
+        )
+    jc_payment_range: tuple[str, str]= (
+        int_to_string(PaymentRange, jc.candidate.payment_range), 
+        int_to_string(PaymentRange, jc.job_offer.payment_range)
+        )
+    context = { 
+        'jc': jc,
+        'jc_education': jc_education,
+        'jc_position_level': jc_position_level,
+        'jc_payment_range': jc_payment_range,
+        }
+    return render(request, 'jobs/detail-cand.html', context)
 
 
 @allowed_groups(allowed_roles=['candidate'])
@@ -123,13 +151,7 @@ def candidate_to_job(request, job_id):
 def candidate_profile(request):
     candidated = JobCandidated.objects.filter(candidate=request.user.candidate) # type: ignore
     context = { 'candidated': candidated, }
-    return render(request, 'jobs/candidate_profile.html', context)
-
-
-@allowed_groups(allowed_roles=['company'])
-def company_profile(request):
-    context = {}
-    return render(request, 'jobs/company_profile.html', context)
+    return render(request, 'jobs/candidate-profile.html', context)
 
 
 def profile(request):
@@ -149,7 +171,9 @@ def _edit_profile(request, form_model, template):
             login(request, user)
             messages.success(request, 'Successfully updated your profile')
             return redirect('profile')
-    context = {'form': form}
+    context = {
+            'form': form,
+            }
     return render(request, template, context)
 
 
@@ -160,6 +184,13 @@ def profile_edit(request):
     else:
         return _edit_profile(request, 
                 CompanyRegisterForm, 'registration/comp-register.html')
+
+
+@allowed_groups(allowed_roles=['company'])
+def company_profile(request):
+    #context = {}
+    #return render(request, 'jobs/company-profile.html', context)
+    return profile_edit(request)
 
 
 @allowed_groups(allowed_roles=['candidate'])
