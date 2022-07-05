@@ -30,13 +30,13 @@ This command will generate a docker image that you can run with the following co
 ## Seeing the service in Action
 
 To see the service in action you can create a new user, either a candidate or a company user and see how everything works
-By clicking their login name at the top of the app user can access their profiles. There Candidate users also have access to a list with all their candidated job offers where they can give up. Also on their profiles, users can click on a link to edit their informations.
+By clicking their login name at the top of the app user can access their profiles. There Candidate users also have access to a list with all their applied job offers where they can give up. Also on their profiles, users can click on a link to edit their informations.
 
 The main page for candidates show a list of currently open job offers where they can see more details about the offer and candidate themselves
 
-For Companies the mainpage lists their job offers where they can see how many users candidated themselves to those offers, edit each offer or delete them
+For Companies the mainpage lists their job offers where they can see how many users applied themselves to those offers (these candidates are also ranked by their score), edit each offer or delete them
 There's also a details link that shows every candidate to these offers and their infos and if these candidates fit into the offers requirements
 
 ## More Work to be Done
 
-Currently Djanbs is still a work in progress and can show some little inconsistencies on it's css
+Currently Djanbs is still a work in progress and can show some little inconsistencies on it's css and pages that have dynamic tables need pagination

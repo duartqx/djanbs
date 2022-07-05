@@ -64,6 +64,12 @@ class JobCandidated(models.Model):
     candidate = models.ForeignKey(Candidate, on_delete=models.SET_NULL, null=True)
     date_candidated = models.DateTimeField(auto_now_add=True, null=True)
 
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['job_offer', 'candidate'], name='only apply once')
+        ]
+
     def education(self):
         return self.job_offer.education_req <= self.candidate.education # type: ignore
 
@@ -93,5 +99,5 @@ class JobCandidated(models.Model):
                     "candidate").distinct().count() 
 
     def __str__(self):
-        #return f'{self.job_offer} ({self._get_cndct_count()} applied) - {self.candidate}' # type: ignore
-        return f'{self.job_offer}'
+        return f'{self.job_offer} ({self._get_cndct_count()} applied) - {self.candidate}' # type: ignore
+        #return f'{self.job_offer}'

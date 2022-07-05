@@ -27,12 +27,11 @@
     <p style="color:white;padding=0px">Position Level:</p>
     <p>{{ form.position_level }}</p></center>
 
-    <input class="submit" style="margin-bottom:4px" type="submit" name="Create User">
-    <br>
+    <input class="submit" style="margin-bottom:16px" type="submit" name="Create User">
 {% if request.user.is_authenticated %}
-<center><a class="delete-button" style="padding:12px" href="{% url 'profile' %}">Cancel</a></center>
+<center><a href="{% url 'profile' %}"><input class="delete-button" type="button" value="Cancel" /></a></center>
 {% else %}
-<center><a class="delete-button" style="padding:12px"  href="{% url 'home' %}">Cancel</a>
+<center><a href="{% url 'home' %}"><input class="delete-button" type="button" value="Cancel" /></a>
     <br>
 <div style="color:white">Already have an account?<a class="rl-button" href="{% url 'login' %}">Login</a></div>
 </center>

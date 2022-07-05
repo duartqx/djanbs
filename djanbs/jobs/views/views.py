@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth import login
+from django.db import IntegrityError
 from django.shortcuts import Http404, redirect, render
 
 from jobs.forms import (CandidateRegisterForm, CompanyRegisterForm, 
@@ -125,15 +126,21 @@ def candidate_to_job(request, job_id):
 
     form = JobCandidateForm()
     if request.method == 'POST':
-        form = JobCandidateForm(request.POST)
-        if form.is_valid():
-            obj = form.save(commit=False)
-            obj.job_offer = job_offer
-            obj.candidate = candidate
-            obj.save()
+        try:
+            form = JobCandidateForm(request.POST)
+            if form.is_valid():
+                obj = form.save(commit=False)
+                obj.job_offer = job_offer
+                obj.candidate = candidate
+                obj.save()
 
-            messages.success(request, f'Successfully candidated to {job_offer}!')
+                messages.success(request, f'Successfully applied to {job_offer}!')
+                return redirect('home')
+        except IntegrityError:
+            messages.error(
+                request, f'You\'re already applied yourself for this position!')
             return redirect('home')
+
 
     context = {
         'form':form, 

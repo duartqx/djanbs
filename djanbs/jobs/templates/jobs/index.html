@@ -3,7 +3,11 @@
 
     <div class="job-offers-table">
         {% for message in messages %}
-            <p class="register-n-login">{{ message }}</p>
+            {% if message.tags == 'error' %}
+                <p class="register-n-login logoutred">{{ message }}</p>
+            {% else %}
+                <p class="register-n-login">{{ message }}</p>
+            {% endif %}
         {% endfor %}
         <table>
         <tr class="blue">
