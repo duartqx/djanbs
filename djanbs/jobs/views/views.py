@@ -9,7 +9,7 @@ from jobs.forms import (CandidateRegisterForm, CompanyRegisterForm,
 from ..choices import (EducationRequirement, PaymentRange, 
                        PositionLevel, int_to_string)
 from ..decorators import allowed_groups
-from ..models import Candidate, Company, JobCandidated, JobOffer
+from ..models import Candidate, Company, JobApplied, JobOffer
 
 
 def home(request):
@@ -24,7 +24,7 @@ def home(request):
             company = Company.objects.get(pk=request.user.company.id) # type: ignore
             company_offers = JobOffer.objects.filter(company=company) # type: ignore
             job_candidated = [ 
-                JobCandidated.objects.filter( # type: ignore
+                JobApplied.objects.filter( # type: ignore
                 job_offer=offer).values('candidate').distinct().count() 
                 for offer in company_offers ]
             context = { 
@@ -83,7 +83,7 @@ def delete_job_offer(request, pk):
 def details_job_offer(request, pk):
     job_offer = JobOffer.objects.get(id=pk) # type: ignore
     if request.user.company.id == job_offer.company.id:
-        offer_cnd = [jc for jc in JobCandidated.objects.filter(job_offer=job_offer)] # type: ignore
+        offer_cnd = [jc for jc in JobApplied.objects.filter(job_offer=job_offer)] # type: ignore
         offer_cnd = sorted(offer_cnd,key=lambda x: x.cand_pontuation(), reverse=True)
         
         context = {
@@ -97,7 +97,7 @@ def details_job_offer(request, pk):
 
 @allowed_groups(allowed_roles=['company'])
 def cand_details(request, jc_id):
-    jc = JobCandidated.objects.get(id=jc_id) # type: ignore
+    jc = JobApplied.objects.get(id=jc_id) # type: ignore
     jc_education: tuple[str, str] = (
         int_to_string(EducationRequirement, jc.candidate.education), 
         int_to_string(EducationRequirement, jc.job_offer.education_req)
@@ -156,7 +156,7 @@ def candidate_to_job(request, job_id):
 
 @allowed_groups(allowed_roles=['candidate'])
 def candidate_profile(request):
-    candidated = JobCandidated.objects.filter(candidate=request.user.candidate) # type: ignore
+    candidated = JobApplied.objects.filter(candidate=request.user.candidate) # type: ignore
     context = { 'candidated': candidated, }
     return render(request, 'jobs/candidate-profile.html', context)
 
@@ -202,7 +202,7 @@ def company_profile(request):
 
 @allowed_groups(allowed_roles=['candidate'])
 def delete_job_application(request, job_id):
-    job_candidated = JobCandidated.objects.get(pk=job_id) # type: ignore
+    job_candidated = JobApplied.objects.get(pk=job_id) # type: ignore
     if request.method == "POST":
         job_candidated.delete()
         return redirect('profile')

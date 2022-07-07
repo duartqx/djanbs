@@ -56,7 +56,7 @@ class JobOffer(models.Model):
         return self.name
 
 
-class JobCandidated(models.Model):
+class JobApplied(models.Model):
     ''' When a candidate candidates himself to a JobOffer we write this
     relationship into the database for future access by the site
     administration, companies or the candidate himself '''
