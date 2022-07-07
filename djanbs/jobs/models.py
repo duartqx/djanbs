@@ -62,7 +62,7 @@ class JobApplied(models.Model):
     administration, companies or the candidate himself '''
     job_offer = models.ForeignKey(JobOffer, on_delete=models.CASCADE)
     candidate = models.ForeignKey(Candidate, on_delete=models.SET_NULL, null=True)
-    date_candidated = models.DateTimeField(auto_now_add=True, null=True)
+    date_applied = models.DateTimeField(auto_now_add=True, null=True)
 
     class Meta:
         constraints = [
@@ -94,7 +94,7 @@ class JobApplied(models.Model):
 
     def _get_cndct_count(self):
         ''' Finds out how many applied to each job_offer '''
-        return JobCandidated.objects.filter( # type: ignore
+        return JobApplied.objects.filter( # type: ignore
                 job_offer=self.job_offer).values(
                     "candidate").distinct().count() 
 

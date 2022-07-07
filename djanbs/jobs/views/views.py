@@ -23,12 +23,12 @@ def home(request):
         else:
             company = Company.objects.get(pk=request.user.company.id) # type: ignore
             company_offers = JobOffer.objects.filter(company=company) # type: ignore
-            job_candidated = [ 
+            job_applied = [ 
                 JobApplied.objects.filter( # type: ignore
                 job_offer=offer).values('candidate').distinct().count() 
                 for offer in company_offers ]
             context = { 
-                'company_offers_cand': zip(company_offers,job_candidated),
+                'company_offers_cand': zip(company_offers,job_applied),
                 }
             return render(request, 'jobs/company.html', context)
 
@@ -156,8 +156,8 @@ def candidate_to_job(request, job_id):
 
 @allowed_groups(allowed_roles=['candidate'])
 def candidate_profile(request):
-    candidated = JobApplied.objects.filter(candidate=request.user.candidate) # type: ignore
-    context = { 'candidated': candidated, }
+    applied = JobApplied.objects.filter(candidate=request.user.candidate) # type: ignore
+    context = { 'applied': applied, }
     return render(request, 'jobs/candidate-profile.html', context)
 
 
@@ -202,11 +202,11 @@ def company_profile(request):
 
 @allowed_groups(allowed_roles=['candidate'])
 def delete_job_application(request, job_id):
-    job_candidated = JobApplied.objects.get(pk=job_id) # type: ignore
+    job_applied = JobApplied.objects.get(pk=job_id) # type: ignore
     if request.method == "POST":
-        job_candidated.delete()
+        job_applied.delete()
         return redirect('profile')
     context = {
-        'job_candidated': job_candidated,
+        'job_applied': job_applied,
         }
     return render(request, 'jobs/delete-job-cand.html', context)

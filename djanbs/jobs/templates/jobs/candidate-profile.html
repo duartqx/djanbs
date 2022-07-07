@@ -18,7 +18,7 @@
     <th>Company</th>
     <th>Details and Apply</th>
 </tr>
-{% for job_offer in candidated %}
+{% for job_offer in applied %}
     <tr class="row-hover">
         <td>{{ job_offer.job_offer.name }}</td>
         {% if job_offer.job_offer.position_level == 1 %}
