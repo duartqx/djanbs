@@ -79,7 +79,7 @@ class JobApplied(models.Model):
     def payment_range(self):
         return self.job_offer.payment_range >= self.candidate.payment_range # type: ignore
     
-    def cand_pontuation(self):
+    def cand_score(self):
         cand_points = []
         fields = [
             (self.job_offer.education_req, self.candidate.education), # type: ignore

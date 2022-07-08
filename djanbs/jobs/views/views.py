@@ -8,7 +8,7 @@ from jobs.forms import (CandidateRegisterForm, CompanyRegisterForm,
 
 from ..choices import (EducationRequirement, PaymentRange, 
                        PositionLevel, int_to_string)
-from ..decorators import allowed_groups
+from ..decorators import allowed_role
 from ..models import Candidate, Company, JobApplied, JobOffer
 
 
@@ -33,7 +33,7 @@ def home(request):
             return render(request, 'jobs/company.html', context)
 
 
-@allowed_groups(allowed_roles=['company'])
+@allowed_role(role='company')
 def create_job_offer(request, pk):
     company = Company.objects.get(id=pk) # type: ignore
     form = JobOfferCreationForm()
@@ -51,7 +51,7 @@ def create_job_offer(request, pk):
     return render(request, 'jobs/create-job.html', context)
 
 
-@allowed_groups(allowed_roles=['company'])
+@allowed_role(role='company')
 def edit_job_offer(request, pk):
     job_offer = JobOffer.objects.get(id=pk) # type: ignore
     form = JobOfferCreationForm(instance=job_offer)
@@ -67,7 +67,7 @@ def edit_job_offer(request, pk):
     return render(request, 'jobs/create-job.html', context)
 
 
-@allowed_groups(allowed_roles=['company'])
+@allowed_role(role='company')
 def delete_job_offer(request, pk):
     job_offer = JobOffer.objects.get(id=pk) # type: ignore
     if request.method == 'POST' and request.user.company.id == job_offer.company.id:
@@ -79,12 +79,12 @@ def delete_job_offer(request, pk):
     return render(request, 'jobs/delete-job.html', context)
 
 
-@allowed_groups(allowed_roles=['company'])
+@allowed_role(role='company')
 def details_job_offer(request, pk):
     job_offer = JobOffer.objects.get(id=pk) # type: ignore
     if request.user.company.id == job_offer.company.id:
         offer_cnd = [jc for jc in JobApplied.objects.filter(job_offer=job_offer)] # type: ignore
-        offer_cnd = sorted(offer_cnd,key=lambda x: x.cand_pontuation(), reverse=True)
+        offer_cnd = sorted(offer_cnd,key=lambda x: x.cand_score(), reverse=True)
         
         context = {
             'job_offer': job_offer,
@@ -95,7 +95,7 @@ def details_job_offer(request, pk):
     raise Http404
 
 
-@allowed_groups(allowed_roles=['company'])
+@allowed_role(role='company')
 def cand_details(request, jc_id):
     jc = JobApplied.objects.get(id=jc_id) # type: ignore
     jc_education: tuple[str, str] = (
@@ -119,7 +119,7 @@ def cand_details(request, jc_id):
     return render(request, 'jobs/detail-cand.html', context)
 
 
-@allowed_groups(allowed_roles=['candidate'])
+@allowed_role(role='candidate')
 def candidate_to_job(request, job_id):
     job_offer = JobOffer.objects.get(pk=job_id) # type: ignore
     candidate = Candidate.objects.get(id=request.user.candidate.id) # type: ignore
@@ -154,7 +154,7 @@ def candidate_to_job(request, job_id):
     return render(request, 'jobs/job-candidate.html', context)
 
 
-@allowed_groups(allowed_roles=['candidate'])
+@allowed_role(role='candidate')
 def candidate_profile(request):
     applied = JobApplied.objects.filter(candidate=request.user.candidate) # type: ignore
     context = { 'applied': applied, }
@@ -193,14 +193,14 @@ def profile_edit(request):
                 CompanyRegisterForm, 'registration/comp-register.html')
 
 
-@allowed_groups(allowed_roles=['company'])
+@allowed_role(role='company')
 def company_profile(request):
     #context = {}
     #return render(request, 'jobs/company-profile.html', context)
     return profile_edit(request)
 
 
-@allowed_groups(allowed_roles=['candidate'])
+@allowed_role(role='candidate')
 def delete_job_application(request, job_id):
     job_applied = JobApplied.objects.get(pk=job_id) # type: ignore
     if request.method == "POST":
